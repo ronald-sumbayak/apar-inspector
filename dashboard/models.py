@@ -3,6 +3,7 @@ from datetime import date
 import io
 import qrcode
 import sys
+import aparinspector.settings
 from django.contrib.auth.models import User, Permission
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
@@ -66,6 +67,6 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         filecontent = InMemoryUploadedFile (stream, None, filename, 'image/png', sys.getsizeof (stream), None)
         qr = QRCode.objects.create (apar = instance)
         qr.image.save (filename, filecontent)
-        with open (filename, "rb") as imagefile:
+        with open (os.path.join (os.path.join (settings.MEDIA_ROOT, qrcode), filename), "rb") as imagefile:
             qr.base64 = base64.b64enode (imagefile.read ())
         qr.save ()
