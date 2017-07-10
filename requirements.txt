@@ -1,0 +1,10 @@
+Django==1.11.3
+django-flat-responsive==1.4.1
+djangorestframework==3.6.3
+olefile==0.44
+Pillow==4.2.1
+psycopg2==2.7.1
+pytz==2017.2
+qrcode==5.3
+six==1.10.0
+whitenoise==3.3.0

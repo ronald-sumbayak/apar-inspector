@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.43.84', '192.168.43.85']
 # Application definition
 
 INSTALLED_APPS = [
+    'flat_responsive',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,6 +141,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join (BASE_DIR, 'statiscfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join (BASE_DIR, 'media')
 
