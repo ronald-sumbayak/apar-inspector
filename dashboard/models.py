@@ -68,6 +68,6 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         filecontent = InMemoryUploadedFile (stream, None, filename, 'image/png', sys.getsizeof (stream), None)
         qr = QRCode.objects.create (apar = instance)
         qr.image.save (filename, filecontent)
-        with open (os.path.join (os.path.join (settings.MEDIA_ROOT, qr), filename), "rb") as imagefile:
+        with open (os.path.join (os.path.join (settings.MEDIA_ROOT, "qrcode"), filename), "rb") as imagefile:
             qr.base64 = base64.b64enode (imagefile.read ())
         qr.save ()
