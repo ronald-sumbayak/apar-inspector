@@ -4,7 +4,7 @@ import io
 import os
 import qrcode
 import sys
-import aparinspector.settings
+from aparinspector import settings
 from django.contrib.auth.models import User, Permission
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
