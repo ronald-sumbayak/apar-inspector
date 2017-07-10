@@ -48,8 +48,9 @@ class Apar (models.Model):
 
 
 class QRCode (models.Model):
-    apar  = models.OneToOneField (Apar)
-    image = models.ImageField (upload_to = 'qrcode')
+    apar   = models.OneToOneField (Apar)
+    image  = models.ImageField (upload_to = 'qrcode')
+    base64 = models.CharField (max_length = 1024)
     
     def __str__ (self):
         return self.apar.__str__ ()
@@ -65,4 +66,6 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         filecontent = InMemoryUploadedFile (stream, None, filename, 'image/png', sys.getsizeof (stream), None)
         qr = QRCode.objects.create (apar = instance)
         qr.image.save (filename, filecontent)
+        with open (filename, "rb") as imagefile:
+            qr.base64 = base64.b64enode (imagefile.read ())
         qr.save ()
