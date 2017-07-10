@@ -47,6 +47,7 @@ def inspect (request, id):
     instance = get_object_or_404 (Apar, id = id)
     if request.data.get ('catatan'):
         instance.catatan = request.data['catatan']
+    instance.kondisi = request.data['kondisi']
     instance.inspector = request.user
     instance.pengecekan = date.today ()
     instance.save ()

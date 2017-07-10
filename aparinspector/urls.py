@@ -16,12 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
-from rest_framework.authtoken.views import obtain_auth_token
 
 from aparinspector import settings
 
 urlpatterns = [
-    url (r'^api-token-auth/', obtain_auth_token),
     url (r'^apar/', include ('api.urls')),
     url (r'^', admin.site.urls)
 ]

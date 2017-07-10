@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from rest_framework.authtoken.views import obtain_auth_token
 
 from api import views
 
@@ -8,6 +9,7 @@ from api import views
 # urlpatterns = router.urls
 
 urlpatterns = [
+    url (r'^api-token-auth', obtain_auth_token),
     url (r'^all$', views.AparViewSet.as_view ()),
     url (r'^(?P<id>[\d]+)$', views.AparDetail.as_view ()),
     url (r'^add$', views.add),
