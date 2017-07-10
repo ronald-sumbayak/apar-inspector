@@ -1,8 +1,9 @@
+import base64
 import io
-from datetime import date
-
+import os
 import qrcode
 import sys
+from datetime import date
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponse
@@ -12,8 +13,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from aparinspector import settings
 from api.serializers import AparSerializer, UserSerializer
-from dashboard.models import Apar
+from dashboard.models import Apar, QRCode
 
 @api_view (['POST'])
 def add (request):
@@ -71,3 +73,10 @@ class UserViewSet (generics.ListAPIView):
     queryset         = User.objects.all ()
     serializer_class = UserSerializer
 
+
+def media (request, filename):
+    filename = filename.split ('/')[-1]
+    filename = filename.split ('.')[0]
+    qr = QRCode.objects.get (apar__id = filename)
+    # return HttpResponse ("data:image/jpg;base64,%s" % base64.b64decode (qr.base64), content_type = 'image/png')
+    return HttpResponse (base64.b64decode (qr.base64), content_type = 'image/png')
