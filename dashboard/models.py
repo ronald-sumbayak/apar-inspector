@@ -57,11 +57,12 @@ class QRCode (models.Model):
 
 @receiver (post_save, sender = Apar)
 def generate_qrcode (sender, instance = None, created = False, **kwargs):
-    img = qrcode.make (instance.id)
-    stream = io.BytesIO ()
-    img.save (stream)
-    filename = '%s.png' % (instance.id)
-    filecontent = InMemoryUploadedFile (stream, None, filename, 'image/png', sys.getsizeof (stream), None)
-    qr = QRCode.objects.create (apar = instance)
-    qr.image.save (filename, filecontent)
-    qr.save ()
+    if created:
+        img = qrcode.make (instance.id)
+        stream = io.BytesIO ()
+        img.save (stream)
+        filename = '%s.png' % (instance.id)
+        filecontent = InMemoryUploadedFile (stream, None, filename, 'image/png', sys.getsizeof (stream), None)
+        qr = QRCode.objects.create (apar = instance)
+        qr.image.save (filename, filecontent)
+        qr.save ()
