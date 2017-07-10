@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'aparinspector.wsgi.application'
 DBLIST = {
     'heroku': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'ec2-107-21-113-16.compute-1.amazonaws.com',
-        'NAME': 'deq7dcjrmph43d',
-        'USER': 'xdvlzimcfjhruw',
-        'PASSWORD': '710d66839099886f71000e486cd879d69b073f12bd74f40ec58d0a3f186faa5c',
+        'HOST': 'ec2-23-21-158-253.compute-1.amazonaws.com',
+        'NAME': 'd3q2kriqlth2kr',
+        'USER': 'zzrxekgadijrre',
+        'PASSWORD': '92e718a1c4a4c9857f54008c32008df074a3c8e8b696fe6ba2a6dc06c7d04c6e',
         'PORT': 5432,
         'CONN_MAX_AGE': 0
     },
@@ -100,7 +100,7 @@ DBLIST = {
     }
 }
 DATABASES = {
-    'default': DBLIST['default']
+    'default': DBLIST['heroku']
 }
 
 
