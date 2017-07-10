@@ -13,13 +13,13 @@ from rest_framework.authtoken.models import Token
 @receiver (post_save, sender = User)
 def create_auth_token (sender, instance = None, created = False, **kwargs):
     if created:
-        instance.user_permissions.add (Permission.objects.get (codename = 'add_user'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'change_user'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'delete_user'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'add_apar'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'change_apar'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'delete_apar'))
-        instance.user_permissions.add (Permission.objects.get (codename = 'change_qrcode'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'add_user'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'change_user'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'delete_user'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'add_apar'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'change_apar'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'delete_apar'))
+        # instance.user_permissions.add (Permission.objects.get (codename = 'change_qrcode'))
         Token.objects.create (user = instance)
 
 def save_qrcode (instance, filename):
