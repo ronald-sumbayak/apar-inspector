@@ -1,5 +1,6 @@
 from datetime import date
 
+import base64
 import io
 import os
 import qrcode
