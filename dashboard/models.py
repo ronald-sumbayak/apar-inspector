@@ -1,6 +1,7 @@
 from datetime import date
 
 import io
+import os
 import qrcode
 import sys
 import aparinspector.settings
