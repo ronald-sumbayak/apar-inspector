@@ -1,7 +1,14 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from dashboard.models import Apar
+from api.models import PressureReport, VerificationReport, Apar, InspectionReport
+
+
+class UserSerializer (serializers.ModelSerializer):
+    class Meta:
+        model  = User
+        fields = '__all__'
+
 
 class AparSerializer (serializers.ModelSerializer):
     inspector = serializers.ReadOnlyField (source = 'inspector.username')
@@ -11,7 +18,22 @@ class AparSerializer (serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer (serializers.ModelSerializer):
+class InspectionReportSerializer (serializers.ModelSerializer):
+    apar = serializers.ReadOnlyField (source = 'apar.identifier')
+    inspector = serializers.ReadOnlyField (source = 'inspector.username')
+    
     class Meta:
-        model  = User
+        model  = InspectionReport
+        fields = '__all__'
+
+
+class VerificationReportSerializer (serializers.ModelSerializer):
+    class Meta:
+        model  = VerificationReport
+        fields = '__all__'
+
+
+class PressureReportSerializer (serializers.ModelSerializer):
+    class Meta:
+        model  = PressureReport
         fields = '__all__'

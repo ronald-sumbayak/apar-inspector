@@ -21,7 +21,7 @@ from aparinspector import settings
 from api import views
 
 urlpatterns = [
-    url (r'^apar/', include ('api.urls')),
+    url (r'^rest-api/', include ('api.urls')),
     url (r'^media/qrcode/(?P<filename>[\w.]+)$', views.media),
     url (r'^', admin.site.urls)
 ]

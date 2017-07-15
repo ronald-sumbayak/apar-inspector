@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: os.path.join (BASE_DIR, ...)
+BASE_DIR = os.path.dirname (os.path.dirname (os.path.abspath (__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +25,11 @@ SECRET_KEY = '%)v+la2ory*x#zf*2vi_72b)%jr9pd#+azzdr(3iywq=&*faoo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.84', '192.168.43.85', 'apar.herokuapp.com']
+ALLOWED_HOSTS = [
+    '192.168.43.84',
+    '192.168.43.85',
+    'apar.herokuapp.com'
+]
 
 
 # Application definition
@@ -40,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'dashboard',
     'api'
 ]
 
@@ -51,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'aparinspector.urls'
@@ -59,18 +62,17 @@ ROOT_URLCONF = 'aparinspector.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':[os.path.join (BASE_DIR, 'templates')]
-        ,
+        'DIRS':[os.path.join (BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+                'django.contrib.messages.context_processors.messages'
+            ]
+        }
+    }
 ]
 
 WSGI_APPLICATION = 'aparinspector.wsgi.application'
@@ -93,14 +95,14 @@ DBLIST = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
         'NAME': 'aparinspector',
-        'USER': 'postgres',
+        'USER': 'ronald',
         'PASSWORD': '[\]',
         'PORT': 5432,
         'CONN_MAX_AGE': 0
     }
 }
 DATABASES = {
-    'default': DBLIST['heroku']
+    'default': DBLIST['default']
 }
 
 
@@ -108,18 +110,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'}
 ]
 
 
@@ -127,13 +121,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Asia/Jakarta'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
