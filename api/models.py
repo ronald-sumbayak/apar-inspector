@@ -17,20 +17,38 @@ from rest_framework.authtoken.models import Token
 
 from aparinspector import settings
 
+
+class UserAccessLevel (models.Model):
+    user         = models.OneToOneField (User)
+    access_level = models.IntegerField (default = 2, choices = (
+        (1, "Supervisor"),
+        (2, "Inspector")
+    ))
+
+    def __str__ (self):
+        return self.user.username
+
+
 class Apar (models.Model):
-    lokasi            = models.CharField (max_length = 128)
-    nomor_lokasi      = models.CharField (max_length = 8)
-    jenis             = models.CharField (max_length = 8)
-    kapasitas         = models.IntegerField ()
-    kadaluarsa        = models.DateField ()
-    inspeksi_terakhir = models.ForeignKey ('VerificationReport', blank = True, null = True)
+    lokasi       = models.CharField (max_length = 128)
+    nomor_lokasi = models.CharField (max_length = 8)
+    jenis        = models.CharField (max_length = 8)
+    kapasitas    = models.IntegerField ()
+    kadaluarsa   = models.DateField ()
+    inspeksi     = models.ForeignKey ('VerificationReport', blank = True, null = True)
     
     @property
     def identifier (self):
         return '%s (%s)' % (self.lokasi, self.nomor_lokasi)
+
+    @property
+    def id_inspeksi (self):
+        if inspeksi is null: return -1
+        return inspeksi.id
     
     def __str__ (self):
         return self.identifier
+
 
 
 class InspectionReport (models.Model):
@@ -48,7 +66,7 @@ class InspectionReport (models.Model):
 
 
 class VerificationReport (models.Model):
-    inspection       = models.OneToOneField (InspectionReport)
+    inspection       = models.ForeignKey (InspectionReport)
     verificator      = models.ForeignKey (User)
     status           = models.IntegerField (choices = (
         (0, 'Ditolak'),
@@ -91,13 +109,15 @@ class QRCode (models.Model):
 def create_auth_token (sender, instance = None, created = False, **kwargs):
     if created:
         Token.objects.create (user = instance)
+        user_perms = instance.user_permissions.all ()
+        UserAccessLevel.objects.create (user = instance)
 
 
 @receiver (post_save, sender = VerificationReport)
 def apply_inspection (sender, instance = None, created = False, **kwargs):
-    if created:
+    if created and instance.status == 1:
         apar = instance.inspection.apar
-        apar.inspeksi_terakhir = instance
+        apar.inspeksi = instance
         apar.save ()
 
 

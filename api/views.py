@@ -2,14 +2,15 @@ import base64
 import json
 
 import requests
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.models import Apar, InspectionReport, PressureReport, QRCode, VerificationReport
-from api.serializers import AparSerializer, InspectionReportSerializer, PressureReportSerializer, VerificationReportSerializer
+from api.models import Apar, InspectionReport, PressureReport, QRCode, VerificationReport, UserAccessLevel
+from api.serializers import AparSerializer, InspectionReportSerializer, PressureReportSerializer, UserAccessLevelSerializer, VerificationReportSerializer
 
 
 class AparViewSet (generics.ListAPIView):
@@ -30,6 +31,13 @@ class VerificationReportList (generics.ListAPIView):
 class PressureReportList (generics.ListAPIView):
     queryset = PressureReport.objects.all ()
     serializer_class = PressureReportSerializer
+
+
+class UserRetrieve (generics.RetrieveAPIView):
+    queryset = UserAccessLevel.objects.all ()
+    serializer_class = UserAccessLevelSerializer
+    lookup_field = 'user__username'
+    lookup_url_kwarg = 'username'
 
 
 class AparRetrieve (generics.RetrieveAPIView):
@@ -53,19 +61,16 @@ def inspect (request):
 @api_view (['POST'])
 def verify (request):
     inspection = get_object_or_404 (InspectionReport, id = request.data['id'])
-    if hasattr (inspection, 'verificationreport'):
-        return Response (json.loads ('{"detail": "inspection already verified"}'),
-                         status = 400)
-    else:
-        inspection.status = request.data['status']
-        inspection.save ()
-        return Response (VerificationReportSerializer (
-            VerificationReport.objects.create (
-                inspection = inspection,
-                verificator = request.user,
-                status = request.data['status']
-            )
-        ).data)
+    inspection.status = request.data['status']
+    inspection.save ()
+
+    return Response (VerificationReportSerializer (
+        VerificationReport.objects.create (
+            inspection = inspection,
+            verificator = request.user,
+            status = request.data['status']
+        )
+    ).data)
 
 
 class ReportCreate (generics.CreateAPIView):

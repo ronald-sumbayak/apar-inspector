@@ -14,9 +14,11 @@ router = routers.DefaultRouter ()
 urlpatterns = [
     # url (r'^', include (router.urls)),
     url (r'^token', obtain_auth_token),
+    url (r'^user/(?P<username>[\w]+)$', views.UserRetrieve.as_view ()),
     url (r'^apar/all$', views.AparViewSet.as_view ()),
     url (r'^apar/detail/(?P<id>[\d]+)$', views.AparRetrieve.as_view ()),
     url (r'^inspection/all$', views.InspectionReportList.as_view ()),
+    url (r'^verification/all$', views.VerificationReportList.as_view ()),
     url (r'^inspect$', views.inspect),
     url (r'^verify$', views.verify),
     url (r'^report$', views.ReportCreate.as_view ())

@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '192.168.43.84',
     '192.168.43.85',
+    '192.168.43.245',
     'apar.herokuapp.com'
 ]
 
@@ -95,7 +96,7 @@ DBLIST = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
         'NAME': 'aparinspector',
-        'USER': 'ronald',
+        'USER': 'postgres',
         'PASSWORD': '[\]',
         'PORT': 5432,
         'CONN_MAX_AGE': 0
