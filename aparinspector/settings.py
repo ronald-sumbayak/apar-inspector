@@ -103,7 +103,7 @@ DBLIST = {
     }
 }
 DATABASES = {
-    'default': DBLIST['default']
+    'default': DBLIST['heroku']
 }
 
 
