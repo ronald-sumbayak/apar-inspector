@@ -6,7 +6,7 @@ import os
 import qrcode
 import sys
 
-import requests
+# import requests
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
@@ -40,11 +40,6 @@ class Apar (models.Model):
     @property
     def identifier (self):
         return '%s (%s)' % (self.lokasi, self.nomor_lokasi)
-
-    @property
-    def id_inspeksi (self):
-        if inspeksi is null: return -1
-        return inspeksi.id
     
     def __str__ (self):
         return self.identifier
@@ -60,6 +55,10 @@ class InspectionReport (models.Model):
     ))
     catatan        = models.TextField (max_length = 1024, blank = True, null = True)
     waktu_inspeksi = models.DateTimeField (auto_now_add = True)
+
+    @property
+    def verificationid (self):
+        return self.verificationreport_set.all ().count ()
     
     def __str__ (self):
         return '%s | %s' % (self.apar.__str__ (), self.inspector.__str__ ())
@@ -140,19 +139,19 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         qr.save ()
 
 
-@receiver (post_save, sender = PressureReport)
-def send_sms (sender, instance = None, created = False, **kwargs):
-    if created:
-        r = requests.get ('http://www.freesms4us.com/kirimsms.php', params = {
-            'user': 'ronaldsumbayak',
-            'pass': 'sumbayak611',
-            'isi': instance.body,
-            'no': instance.nomor,
-            'return': 'json'
-        })
-    
-        response = json.loads (r.text)
-        print (r.text)
-        if not response['Status'] == 'Sukses':
-            return HttpResponse (json.loads ('{"detail": "gagal terkirim"}'), status = 500)
-        return HttpResponse (json.loads ('{"detail": "sukses"}'), status = 200)
+# @receiver (post_save, sender = PressureReport)
+# def send_sms (sender, instance = None, created = False, **kwargs):
+#     if created:
+#         r = requests.get ('http://www.freesms4us.com/kirimsms.php', params = {
+#             'user': 'ronaldsumbayak',
+#             'pass': 'sumbayak611',
+#             'isi': instance.body,
+#             'no': instance.nomor,
+#             'return': 'json'
+#         })
+#     
+#         response = json.loads (r.text)
+#         print (r.text)
+#         if not response['Status'] == 'Sukses':
+#             return HttpResponse (json.loads ('{"detail": "gagal terkirim"}'), status = 500)
+#         return HttpResponse (json.loads ('{"detail": "sukses"}'), status = 200)

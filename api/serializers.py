@@ -22,7 +22,7 @@ class InspectionReportSerializer (serializers.ModelSerializer):
     apar = serializers.ReadOnlyField (source = 'apar.identifier')
     aparid = serializers.ReadOnlyField (source = 'apar.id')
     inspector = serializers.ReadOnlyField (source = 'inspector.username')
-    verification = serializers.ReadOnlyField (source = 'verificationreport.id')
+    verification = serializers.ReadOnlyField (source = 'verificationid')
     
     class Meta:
         model  = InspectionReport

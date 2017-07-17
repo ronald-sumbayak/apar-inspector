@@ -1,7 +1,6 @@
 import base64
 import json
 
-import requests
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -61,9 +60,6 @@ def inspect (request):
 @api_view (['POST'])
 def verify (request):
     inspection = get_object_or_404 (InspectionReport, id = request.data['id'])
-    inspection.status = request.data['status']
-    inspection.save ()
-
     return Response (VerificationReportSerializer (
         VerificationReport.objects.create (
             inspection = inspection,
