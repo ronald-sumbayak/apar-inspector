@@ -6,7 +6,7 @@ import os
 import qrcode
 import sys
 
-# import requests
+import requests
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
@@ -139,19 +139,19 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         qr.save ()
 
 
-# @receiver (post_save, sender = PressureReport)
-# def send_sms (sender, instance = None, created = False, **kwargs):
-#     if created:
-#         r = requests.get ('http://www.freesms4us.com/kirimsms.php', params = {
-#             'user': 'ronaldsumbayak',
-#             'pass': 'sumbayak611',
-#             'isi': instance.body,
-#             'no': instance.nomor,
-#             'return': 'json'
-#         })
-#     
-#         response = json.loads (r.text)
-#         print (r.text)
-#         if not response['Status'] == 'Sukses':
-#             return HttpResponse (json.loads ('{"detail": "gagal terkirim"}'), status = 500)
-#         return HttpResponse (json.loads ('{"detail": "sukses"}'), status = 200)
+@receiver (post_save, sender = PressureReport)
+def send_sms (sender, instance = None, created = False, **kwargs):
+    if created:
+        r = requests.get ('http://www.freesms4us.com/kirimsms.php', params = {
+            'user': 'ronaldsumbayak',
+            'pass': 'sumbayak611',
+            'isi': instance.body,
+            'no': instance.nomor,
+            'return': 'json'
+        })
+
+        response = json.loads (r.text)
+        print (r.text)
+        if not response['Status'] == 'Sukses':
+            return HttpResponse (json.loads ('{"detail": "gagal terkirim"}'), status = 500)
+        return HttpResponse (json.loads ('{"detail": "sukses"}'), status = 200)
