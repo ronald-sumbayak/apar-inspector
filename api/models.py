@@ -17,7 +17,6 @@ from rest_framework.authtoken.models import Token
 
 from aparinspector import settings
 
-
 class UserAccessLevel (models.Model):
     user         = models.OneToOneField (User)
     access_level = models.IntegerField (default = 2, choices = (
@@ -27,7 +26,6 @@ class UserAccessLevel (models.Model):
 
     def __str__ (self):
         return self.user.username
-
 
 class Apar (models.Model):
     lokasi       = models.CharField (max_length = 128)
@@ -43,8 +41,6 @@ class Apar (models.Model):
     
     def __str__ (self):
         return self.identifier
-
-
 
 class InspectionReport (models.Model):
     apar           = models.ForeignKey (Apar)
@@ -63,7 +59,6 @@ class InspectionReport (models.Model):
     def __str__ (self):
         return '%s | %s' % (self.apar.__str__ (), self.inspector.__str__ ())
 
-
 class VerificationReport (models.Model):
     inspection       = models.ForeignKey (InspectionReport)
     verificator      = models.ForeignKey (User)
@@ -76,7 +71,6 @@ class VerificationReport (models.Model):
     def __str__ (self):
         return '%s | %s' % (self.inspection.__str__ (),
                             self.verificator)
-
 
 class PressureReport (models.Model):
     pembuka = models.CharField (max_length = 64)
@@ -94,7 +88,6 @@ class PressureReport (models.Model):
     def body (self):
         return "%s %s %s %s %s" % (self.pembuka, self.t, self.p, self.b, self.penutup)
 
-
 class QRCode (models.Model):
     apar   = models.OneToOneField (Apar)
     image  = models.ImageField (upload_to = 'qrcode')
@@ -103,14 +96,12 @@ class QRCode (models.Model):
     def __str__ (self):
         return self.apar.__str__ ()
 
-
 @receiver (post_save, sender = User)
 def create_auth_token (sender, instance = None, created = False, **kwargs):
     if created:
         Token.objects.create (user = instance)
         user_perms = instance.user_permissions.all ()
         UserAccessLevel.objects.create (user = instance)
-
 
 @receiver (post_save, sender = VerificationReport)
 def apply_inspection (sender, instance = None, created = False, **kwargs):
@@ -137,7 +128,6 @@ def generate_qrcode (sender, instance = None, created = False, **kwargs):
         with open (file, 'rb') as imagefile:
             qr.base64 = base64.b64encode (imagefile.read ())
         qr.save ()
-
 
 @receiver (post_save, sender = PressureReport)
 def send_sms (sender, instance = None, created = False, **kwargs):

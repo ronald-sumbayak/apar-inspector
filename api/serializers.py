@@ -3,12 +3,10 @@ from rest_framework import serializers
 
 from api.models import PressureReport, VerificationReport, Apar, InspectionReport, UserAccessLevel
 
-
 class UserAccessLevelSerializer (serializers.ModelSerializer):
     class Meta:
         model  = UserAccessLevel
         fields = '__all__'
-
 
 class AparSerializer (serializers.ModelSerializer):
     inspeksi = serializers.ReadOnlyField (source = 'inspeksi.inspection.id')
@@ -16,7 +14,6 @@ class AparSerializer (serializers.ModelSerializer):
     class Meta:
         model  = Apar
         fields = '__all__'
-
 
 class InspectionReportSerializer (serializers.ModelSerializer):
     apar = serializers.ReadOnlyField (source = 'apar.identifier')
@@ -28,12 +25,10 @@ class InspectionReportSerializer (serializers.ModelSerializer):
         model  = InspectionReport
         fields = '__all__'
 
-
 class VerificationReportSerializer (serializers.ModelSerializer):
     class Meta:
         model  = VerificationReport
         fields = '__all__'
-
 
 class PressureReportSerializer (serializers.ModelSerializer):
     class Meta:

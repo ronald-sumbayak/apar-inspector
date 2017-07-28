@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join (BASE_DIR, ...)
 BASE_DIR = os.path.dirname (os.path.dirname (os.path.abspath (__file__)))
 
@@ -25,12 +27,7 @@ SECRET_KEY = '%)v+la2ory*x#zf*2vi_72b)%jr9pd#+azzdr(3iywq=&*faoo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '192.168.43.84',
-    '192.168.43.85',
-    '192.168.43.245',
-    'apar.herokuapp.com'
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,29 +79,17 @@ WSGI_APPLICATION = 'aparinspector.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DBLIST = {
-    'heroku': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'ec2-23-21-158-253.compute-1.amazonaws.com',
-        'NAME': 'd3q2kriqlth2kr',
-        'USER': 'zzrxekgadijrre',
-        'PASSWORD': '92e718a1c4a4c9857f54008c32008df074a3c8e8b696fe6ba2a6dc06c7d04c6e',
-        'PORT': 5432,
-        'CONN_MAX_AGE': 0
-    },
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
         'NAME': 'aparinspector',
         'USER': 'postgres',
-        'PASSWORD': '[\]',
-        'PORT': 5432,
-        'CONN_MAX_AGE': 0
+        'PASSWORD': '[\]'
     }
 }
-DATABASES = {
-    'default': DBLIST['heroku']
-}
+
+DATABASES['default'].update (dj_database_url.config ())
 
 
 # Password validation
@@ -132,13 +117,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join (BASE_DIR, 'statiscfiles')
+STATIC_ROOT = '/var/www/inspector/static'
+STATICFILES_DIRS = [os.path.join (BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+
+# Media files
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join (BASE_DIR, 'media')
+MEDIA_ROOT = '/var/www/aparinspector/media'
+
+
+# Rest Framework
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication']
 }
