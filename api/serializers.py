@@ -11,7 +11,7 @@ class UserAccessLevelSerializer (serializers.ModelSerializer):
 
 
 class AparSerializer (serializers.ModelSerializer):
-    inspector = serializers.ReadOnlyField (source = 'inspector.username')
+    inspeksi = serializers.ReadOnlyField (source = 'inspeksi.inspection.id')
     
     class Meta:
         model  = Apar
