@@ -114,5 +114,5 @@ def export_to_excel (request):
 
     content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     response = HttpResponse (output.getvalue (), content_type = content_type)
-    response['Content-Disposition'] = 'attachment; filename=%s_export.xlsx' % 1
+    response['Content-Disposition'] = 'attachment; filename=aparinspector_export.xlsx'
     return response
