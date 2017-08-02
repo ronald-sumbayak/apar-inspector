@@ -1,9 +1,7 @@
 import base64
 import io
-import json
-import xlsxwriter
 
-from django.contrib.auth.models import User
+import xlsxwriter
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
@@ -66,7 +64,7 @@ class ReportCreate (generics.CreateAPIView):
     serializer_class = serializers.PressureReportSerializer
 
 def media (request, filename):
-    qr = QRCode.objects.get (apar__id = filename.split ('/')[-1].split ('.')[0])
+    qr = models.QRCode.objects.get (apar__id = filename.split ('/')[-1].split ('.')[0])
     return HttpResponse (base64.b64decode (qr.base64), content_type = 'image/png')
 
 def export_to_excel (request):

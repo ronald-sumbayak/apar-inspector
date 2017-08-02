@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from api.models import PressureReport, VerificationReport, Apar, InspectionReport, UserAccessLevel
+from api.models import Apar, InspectionReport, PressureReport, UserAccessLevel, VerificationReport
 
 class UserAccessLevelSerializer (serializers.ModelSerializer):
     class Meta:
